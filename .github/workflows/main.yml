@@ -7,20 +7,10 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: alma-linux-latest
 
     steps:
-
-    - name: Config the SSH 1
-      uses: appleboy/ssh-action@v1.0.0
-      env:
-        MYSQL: ${{ secrets.ROOT_PASSWD }}
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: User ${{ secrets.SSH_USER }}
-        key: main.key ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        allenvs: true
+    
     - name: Config SSH
       run: |
         mkdir -p ~/.ssh/
@@ -34,12 +24,20 @@ jobs:
             IdentityFile ~/.ssh/main.key
             StrictHostKeyChecking no
           EOF
+      env: 
+         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
         
     - name: Pull Git File
       run: ssh main 'git clone https://github.com/dhiky/wordpress-installation.git /tmp/wp-install'
-
+      env: 
+         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
+         
     - name: Check & Install Dependencies
       run: ssh main 'chmod +x /tmp/wp-install/dependencies.sh && sh /tmp/wp-install/dependencies.sh'
-
+      env: 
+         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
+         
     - name: Install WordPress
       run: ssh main 'chmod +x /tmp/wp-install/install.sh && sh /tmp/wp-install/install.sh'
+      env: 
+         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
