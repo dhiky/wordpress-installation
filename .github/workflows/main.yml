@@ -1,4 +1,4 @@
-name: SSH to VPS and Execute Commands
+name: Install Wordpress To VPS
 
 on:
   push:
@@ -15,11 +15,20 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Pull Git File
+      run: git pull origin main:/tmp/wp-install
 
     - name: Check & Install Dependencies
       run: |
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_PRIVATE_KEY username@103.117.56.37 -p2237 << 'EOF'
-          # Run your bash commands here
-          echo "Hello from VPS!"
-          # Add more commands as needed
+          chmod +x /tmp/wp-install/dependencies.sh
+          /tmp/wp-install/dependencies.sh
+        EOF
+
+    - name: Install WordPress
+      run: |
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_PRIVATE_KEY username@103.117.56.37 -p2237 << 'EOF'
+          chmod +x /tmp/wp-install/install.sh.sh
+          /tmp/wp-install/install.sh.sh
         EOF
