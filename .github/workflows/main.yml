@@ -16,14 +16,14 @@ jobs:
         mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/main.key
           chmod 600 ~/.ssh/main.key
-          cat >>~/.ssh/config << EOF
+          cat >>~/.ssh/config << END
           Host main
             HostName ${{ secrets.SSH_HOST }}
             User ${{ secrets.SSH_HOST }}
             Port ${{ secrets.SSH_PORT }}
             IdentityFile ~/.ssh/main.key
             StrictHostKeyChecking no
-          EOF
+          END
       env: 
          ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
         
