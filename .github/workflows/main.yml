@@ -18,20 +18,14 @@ jobs:
         
     - name: Pull Git File
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_PRIVATE_KEY username@103.117.56.37 -p2237 << 'EOF'
           git clone https://github.com/dhiky/wordpress-installation.git /tmp/wp-install
-        EOF
 
     - name: Check & Install Dependencies
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_PRIVATE_KEY username@103.117.56.37 -p2237 << 'EOF'
           chmod +x /tmp/wp-install/dependencies.sh
-          /tmp/wp-install/dependencies.sh
-        EOF
+          sh /tmp/wp-install/dependencies.sh
 
     - name: Install WordPress
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_PRIVATE_KEY username@103.117.56.37 -p2237 << 'EOF'
           chmod +x /tmp/wp-install/install.sh.sh
-          /tmp/wp-install/install.sh.sh
-        EOF
+          sh /tmp/wp-install/install.sh.sh
