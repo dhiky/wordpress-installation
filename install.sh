@@ -15,7 +15,7 @@ EOF
 
 # Install the Wordpress
 echo "Installing Wordpress..."
-nginx_conf="/etc/nginx/conf.d/*"
+nginx_conf="/etc/nginx/conf.d/"
 doc_root="$(awk '$1 == "root" {print $2}' "$nginx_conf" | head -n 1 | tr -d ';')"
 wp core download --path=$doc_root
 wp config create --dbname=$db_user --dbuser=$db_user --dbpass=$db_passwd --path=$doc_root
