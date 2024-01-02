@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Generate the User DB & Password
-db_passwd="head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 12"
+db_passwd="cat /dev/urandom | tr -dc '[:alnum:]!@#$%^&*()' | head -c 12"
 db_user="wp_data$(printf '%02d' $((RANDOM % 100)))"
 user_admin="wp_admin$(printf '%02d' $((RANDOM % 100)))"
-user_passwd="head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 8"
+user_passwd="cat /dev/urandom | tr -dc '[:alnum:]!@#$%^&*()' | head -c 10"
 
 # Database for the Wordpress
 echo "Preparing the Database for Wordpress..."
