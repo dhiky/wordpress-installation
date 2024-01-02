@@ -7,7 +7,7 @@ user_admin="wp_admin$(printf '%02d' $((RANDOM % 100)))"
 user_passwd="$(cat /dev/urandom | tr -dc '[:alnum:]!@#$%^&*()' | head -c 10)"
 
 # Preparing the Database
-mysql --user=root --password=$ROOT_MYSQL<<EOF
+mysql --user=root --password='noPass!395'<<EOF
 CREATE DATABASE IF NOT EXISTS $db_user;
 CREATE USER IF NOT EXISTS $db_user@localhost IDENTIFIED BY '$db_passwd';
 GRANT SELECT, CREATE, DELETE, INSERT, UPDATE ON $db_user.* TO '$db_user'@'localhost';
