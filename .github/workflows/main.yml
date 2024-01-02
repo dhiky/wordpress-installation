@@ -17,7 +17,10 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         
     - name: Pull Git File
-      run: git pull origin main:/tmp/wp-install
+      run: |
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_PRIVATE_KEY username@103.117.56.37 -p2237 << 'EOF'
+          git clone https://github.com/dhiky/wordpress-installation.git /tmp/wp-install
+        EOF
 
     - name: Check & Install Dependencies
       run: |
