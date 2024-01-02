@@ -23,7 +23,9 @@ jobs:
             Port ${{ secrets.SSH_PORT }}
             IdentityFile ~/.ssh/main.key
             StrictHostKeyChecking no
-          END 
+          END
+
+          
     - name: Pull Git File
       run: ssh main 'git clone https://github.com/dhiky/wordpress-installation.git /tmp/wp-install'
          
