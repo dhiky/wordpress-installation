@@ -12,6 +12,7 @@ echo "Installing Wordpress.."
 doc_root="$(sed -n -e '/^\s*root\s*/{s/^\s*root\s*//;s/;//p}' /etc/nginx/conf.d/*.conf)"
 wp core download --path=$doc_root
 echo "Creating Database for Wordpress..."
+echo $ROOT_MYSQL
 mysql -u root -p$db_root << EOF
 CREATE DATABASE $db_user;
 CREATE USER $db_user@localhost IDENTIFIED BY '$db_passwd';
