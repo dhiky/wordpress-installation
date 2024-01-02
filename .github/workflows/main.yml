@@ -27,5 +27,5 @@ jobs:
 
     - name: Install WordPress
       run: |
-          chmod +x /tmp/wp-install/install.sh.sh
-          sh /tmp/wp-install/install.sh.sh
+          chmod +x /tmp/wp-install/install.sh
+          sh /tmp/wp-install/install.sh
