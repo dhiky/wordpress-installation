@@ -8,9 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env:
+      ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
     steps:
-    
     - name: Config SSH
       run: |
           mkdir -p ~/.ssh/
@@ -18,27 +18,17 @@ jobs:
           chmod 600 ~/.ssh/main.key
           cat >>~/.ssh/config <<END
           Host main
-            HostName ${{ secrets.SSH_HOST }}
+            HostName 103.117.56.37
             User ${{ secrets.SSH_USER }}
             Port ${{ secrets.SSH_PORT }}
             IdentityFile ~/.ssh/main.key
             StrictHostKeyChecking no
-          END
-          
-      env: 
-         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
-        
+          END 
     - name: Pull Git File
       run: ssh main 'git clone https://github.com/dhiky/wordpress-installation.git /tmp/wp-install'
-      env: 
-         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
          
     - name: Check & Install Dependencies
       run: ssh main 'chmod +x /tmp/wp-install/dependencies.sh && sh /tmp/wp-install/dependencies.sh'
-      env: 
-         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
          
     - name: Install WordPress
-      run: ssh main 'chmod +x /tmp/wp-install/install.sh && sh /tmp/wp-install/install.sh'
-      env: 
-         ROOT_MYSQL : ${{ secrets.ROOT_PASSWD }}
+      run: ssh main 'chmod +x /tmp/wp-install/install.sh && sh /tmp/wp-install/install.sh "$ROOT_MYSQL"'
