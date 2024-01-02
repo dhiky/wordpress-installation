@@ -14,7 +14,7 @@ FLUSH PRIVILEGES;
 EOF
 
 # Install the Wordpress
-echo "Installing Wordpress..."
+echo "Installing Wordpress.."
 doc_root="$(sed -n -e '/^\s*root\s*/{s/^\s*root\s*//;s/;//p}' /etc/nginx/conf.d/*.conf)"
 wp core download --path=$doc_root
 wp config create --dbname=$db_user --dbuser=$db_user --dbpass=$db_passwd --path=$doc_root
