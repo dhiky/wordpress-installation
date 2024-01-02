@@ -5,7 +5,6 @@ db_passwd="$(cat /dev/urandom | tr -dc '[:alnum:]!@#$%^&*()' | head -c 12)"
 db_user="wp_data$(printf '%02d' $((RANDOM % 100)))"
 user_admin="wp_admin$(printf '%02d' $((RANDOM % 100)))"
 user_passwd="$(cat /dev/urandom | tr -dc '[:alnum:]!@#$%^&*()' | head -c 10)"
-db_root=$ROOT_MYSQL
 
 # Install the Wordpress
 echo "Installing Wordpress.."
@@ -13,7 +12,7 @@ doc_root="$(sed -n -e '/^\s*root\s*/{s/^\s*root\s*//;s/;//p}' /etc/nginx/conf.d/
 wp core download --path=$doc_root
 echo "Creating Database for Wordpress..."
 echo $ROOT_MYSQL
-mysql -u root -p$db_root << EOF
+mysql -u root -p"$ROOT_MYSQL" << EOF
 CREATE DATABASE $db_user;
 CREATE USER $db_user@localhost IDENTIFIED BY '$db_passwd';
 GRANT SELECT, CREATE, DELETE, INSERT, UPDATE ON $db_user.* TO '$db_user'@'localhost';
