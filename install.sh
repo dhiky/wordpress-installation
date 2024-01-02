@@ -15,13 +15,12 @@ EOF
 
 # Install the Wordpress
 echo "Installing Wordpress..."
-nginx_conf="/etc/nginx/conf.d/"
-doc_root="$(awk '$1 == "root" {print $2}' "$nginx_conf" | head -n 1 | tr -d ';')"
+doc_root="$(sed -n -e '/^\s*root\s*/{s/^\s*root\s*//;s/;//p}' /etc/nginx/conf.d/*.conf)"
 wp core download --path=$doc_root
 wp config create --dbname=$db_user --dbuser=$db_user --dbpass=$db_passwd --path=$doc_root
 echo "Creating Database for Wordpress..."
 wp db create --path=$doc_root
-mysql -u root -p'$ROOT_PASSWD' <<EOF
+mysql -u root -p'${{ secrets.ROOT_PASSWD }}' <<EOF
 GRANT CREATE, SELECT, INSERT, UPDATE, DELETE ON $db_user.* TO '$db_user'@'localhost';
 FLUSH PRIVILEGES;
 EOF
