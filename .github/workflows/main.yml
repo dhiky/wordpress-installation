@@ -19,7 +19,7 @@ jobs:
           cat >>~/.ssh/config <<END
           Host main
             HostName ${{ secrets.SSH_HOST }}
-            User ${{ secrets.SSH_HOST }}
+            User ${{ secrets.SSH_USER }}
             Port ${{ secrets.SSH_PORT }}
             IdentityFile ~/.ssh/main.key
             StrictHostKeyChecking no
